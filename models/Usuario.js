@@ -52,6 +52,10 @@ const UsuariosSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role'
     },
+    estado: {
+        type: String,
+        trim: true
+    },
     registro: {
         type: Date,
         default: Date.now()

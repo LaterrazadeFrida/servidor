@@ -25,6 +25,10 @@ router.get('/',
 
 );
 
+//actualiza productos
+router.put('/:id',
+  usuarioController.actualizarCliente
+);
 
 
 module.exports = router;

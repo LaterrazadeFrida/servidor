@@ -1,6 +1,6 @@
 const Usuario = require('../models/Usuario');
 const Role = require('../models/Role');
-const bcryptjs = require('bcryptjs');
+const Estado = require('../models/Estado');
 const { validationResult } = require('express-validator');
 
 exports.crearUsuario = async (req, res) => {
@@ -31,6 +31,12 @@ exports.crearUsuario = async (req, res) => {
             usuario.rol = [role._id];
         }
 
+        if (!req.body.estado) {
+            const estado = await Estado.findOne({ nombreEstado: "Activo" });
+            usuario.estado = [estado._id];
+        }
+
+
         //guarda el nuevo usuario bd 
         await usuario.save();
 
@@ -55,5 +61,14 @@ exports.obtenerClientes = async (req, res) => {
 
 }
 
-
+// Actualizar cliente
+exports.actualizarCliente= async (req, res) => {
+    var clienteId = req.params.id;
+    var cliente = req.body;
+    Usuario.findByIdAndUpdate(clienteId, cliente, { new: true }, (err, clienteUpdated) => {
+        if (err) return res.status(500).send({ msg: 'Error al actualizar' });
+        if (!clienteUpdated) return res.status(404).send({ msg: 'No existe el cliente para actualizar' });
+        return res.status(200).send({cliente: clienteUpdated });
+    });
+}
 
