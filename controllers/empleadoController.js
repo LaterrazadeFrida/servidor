@@ -92,7 +92,7 @@ exports.actualizarEmpleado = async (req, res) => {
     var empleadoId = req.params.id;
     var update = req.body;
 
-    Empleado.findByIdAndUpdate(empleadoId, update, { new: true }, (err, empleadoActualizado) => {
+    Usuario.findByIdAndUpdate(empleadoId, update, { new: true }, (err, empleadoActualizado) => {
         if (err) return res.status(500).send({ message: 'Error al actualizar' });
 
         if (!empleadoActualizado) return res.status(404).send({ message: 'No existe el empleado para actualizar' });

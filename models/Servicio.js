@@ -25,6 +25,10 @@ const ServicioSchema = mongoose.Schema({
       required: true,
       trim: true
    },
+   estado: {
+      type: String,
+      trim: true
+   },
    creado: {
       type: Date,
       default: Date.now()
