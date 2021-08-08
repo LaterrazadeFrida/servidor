@@ -39,13 +39,10 @@ exports.crearEmpleado = async (req, res) => {
         console.log(error);
         res.status(400).send('Hubo un error');
     }
-
-
 }
 
 //consulta todos los empleados registados en la bd
 exports.obtenerEmpleados = async (req, res) => {
-
     try {
         const empleados = await Usuario.find({rol: '60f4ba2518bcb70ffca87c9d'});
         res.json({ empleados });
@@ -53,10 +50,7 @@ exports.obtenerEmpleados = async (req, res) => {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
-
 }
-
-
 //eliminar un empleado
 exports.eliminarEmpleado = async (req, res) => {
 
@@ -65,9 +59,7 @@ exports.eliminarEmpleado = async (req, res) => {
     if (!errores.isEmpty()) {
         return res.status(400).json({ errores: errores.array() });
     }
-
     var empleadoId = req.params.id;
-
     Empleado.findByIdAndRemove(empleadoId, (err, empleadoEliminado) => {
         if (err) return res.status(500).send({ message: 'No se ha podido borrar el empleado' });
 

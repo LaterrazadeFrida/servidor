@@ -2,36 +2,28 @@ const Usuario = require('../models/Usuario');
 const Cita = require('../models/Cita');
 
 exports.validarUsuario = async (req, res) => {
-
     var documento = req.params.id;
     try {
-
         //revisar que el usuario si exista
         let usuario = await Usuario.findOne({documento, rol: '60f4ba3418bcb70ffca87c9e'});
         if (!usuario) {
             return res.status(400).json({ msg: 'EL USUARIO NO ESTA REGISTRADO' });
         }
-
         //confirmacion
         res.json(usuario);
     } catch (error) {
         console.log(error);
         res.status(400).send('HUBO UN ERROR');
     }
-
 }
 
 //registra citas en la bd
 exports.crearCita = async (req, res) => {
-
     try {
         cita = new Cita(req.body);
-        console.log(cita);
-
         let inicioEnviado = cita.horaInicio;
         let finalEnviado = cita.horaFin;
         let docEmplEnvi = cita.docEmpleado;
-
         let noDispo = await Cita.find({
             $or:
                 [
