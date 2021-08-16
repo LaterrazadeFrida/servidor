@@ -17,12 +17,10 @@ exports.generarConsulta = async (req, res) => {
             }
         }).sort({ costo: -1 });
 
-        let cumplidas = citas.filter(cita => cita.Estado == 'Cumplida');
-
-        if (cumplidas.length === 0) {
+        if (citas.length === 0) {
             return res.status(400).json({ msg: 'NO SE ENCONTRARON DATOS' });
         }
-        res.json(cumplidas);
+        res.json(citas);
     } catch (error) {
         console.log(error);
         res.status(400).send('Hubo un error');
