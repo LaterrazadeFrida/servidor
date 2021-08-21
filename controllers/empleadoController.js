@@ -10,30 +10,27 @@ exports.crearEmpleado = async (req, res) => {
     if (!errores.isEmpty()) {
         return res.status(400).json({ errores: errores.array() });
     }
-    const { documento, contraseña } = req.body;
-
+    const { documento, contraseña , correo} = req.body;
     try {
         //Revisar usuario regitrado unico
         let usuario = await Usuario.findOne({ documento });
+        let existeCorreo = await Usuario.findOne({ correo });
 
         if (usuario) {
-            console.log(usuario);
-            return res.status(400).json({ msg: 'EL EMPLEADO YA EXISTE' });
+            return res.status(400).json({ msg: 'YA HAY UN USUARIO REGISTRADO CON ESE DOCUMENTO DE IDENTIDAD'});
         }
-
+        if (existeCorreo) {
+            return res.status(400).json({ msg: 'YA HAY UN USUARIO REGISTRADO CON ESE CORREO ELECTRÓNICO'});
+        }
         //crea el nuevo Empleado
         usuario = new Usuario(req.body);
-
         //hashear el password
         const salt = await bcryptjs.genSalt(10);
         usuario.contraseña = await bcryptjs.hash(contraseña, salt);
-
         const role = await Role.findOne({ nombre: "Empleado" });
         usuario.rol = [role._id];
-
         //guarda en bd
         await usuario.save();
-
         res.json('EMPLEADO CREADO CON EXITO');
     } catch (error) {
         console.log(error);
